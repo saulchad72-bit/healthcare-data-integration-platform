@@ -1,0 +1,23 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "demo-001",
+        "active": true
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-001",
+        "status": "finished",
+        "subject": {
+          "reference": "Patient/demo-001"
+        }
+      }
+    }
+  ]
+}
