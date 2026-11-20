@@ -1,0 +1,5 @@
+claim_id,member_id,status,billed_amount
+CL1,M100,paid,125.50
+CL2,M101,denied,50
+CL2,M101,paid,50
+CL3,M102,pending,-10

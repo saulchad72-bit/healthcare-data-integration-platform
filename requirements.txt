@@ -1,0 +1,2 @@
+# Core demo and tests use Python 3.10+ standard library only.
+# Add cloud SDKs only when enabling an integration.

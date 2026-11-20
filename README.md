@@ -1,33 +1,55 @@
-# Healthcare Fhir Data Integration
+# healthcare-claims-etl
 
-FHIR resource normalization and privacy-aware validation.
+De-identified claims ingestion and encounter normalization with validation rejection output.
 
-**Stack:** Python, HL7 FHIR, SQL.
+## Stack and design
 
-## Scope
-This is a reproducible **portfolio demonstration using synthetic data**. It is not a company codebase, production deployment, or evidence of use of real patient/customer data.
+Python, SQL, ADF/Databricks pipeline design. The runnable core is deliberately kept lightweight and dependency-free so the project can be tested locally without cloud credentials. Cloud products described here are architectural targets or integration examples **unless actual integration code is present**.
 
-## Run locally
+## Architecture
+
+`data/sample.csv` → `pipeline.py` (validation and transformations) → `output.json` (inspection/reconciliation output)
+
+Input example: fictional claim identifiers.
+
+## Quickstart
+
+Requires Python 3.10 or newer. From the repository root:
 
 ```bash
-python src/main.py
-python -m unittest discover -s tests
+python cli.py
+python -m unittest discover -s tests -v
 ```
 
-Python 3.10+ is required. The core demo uses only the Python standard library. Optional cloud/orchestration artifacts illustrate deployment integration and require separate infrastructure or credentials.
+Output is written to `output.json`; customize paths with:
 
-## Design decisions
-- Small, inspectable input data for reproducible output.
-- Explicit validation or idempotency logic in the transformation layer.
-- No hard-coded secrets or real personal records.
+```bash
+python cli.py --input data/sample.csv --output output.json
+```
 
-## Limitations and next steps
-- Replace sample files with permitted data sources before production use.
-- Add durable storage, structured telemetry, monitoring, and integration tests for a deployed pipeline.
-- Review security, cost, IAM, and compliance requirements before connecting to a real cloud environment.
+## Implementation notes
 
-## Repository structure
-- `src/main.py`: runnable demonstration
-- `data/`: synthetic examples
-- `tests/`: smoke test
-- Additional SQL / infrastructure examples where applicable
+- Functional logic is in `pipeline.py`, separate from the CLI.
+- Includes a representative dataset, automated unit tests, and a CI workflow.
+- No external services or credentials are required for the demo run.
+- Run against a larger synthetic dataset and record timing/data-quality results before describing performance improvements.
+
+## Repository layout
+
+- `pipeline.py` — domain-specific transformation, validation, or aggregation
+- `cli.py` — command-line entrypoint
+- `data/` — safe sample input records
+- `tests/` — reproducibility checks
+- `.github/workflows/tests.yml` — GitHub Actions test workflow
+
+## Scope and limitations
+
+This is an independent portfolio prototype, **not an employer production system**. It does not claim live cloud infrastructure, secured PHI handling, operational SLAs, or HIPAA certification. For real data, add secrets management, access controls, PII redaction, schema contracts, monitoring, and integration tests.
+
+## Suggested next iteration
+
+Wire the validated core into the Python environment, add failure injection tests, and document before/after metrics.
+
+## License
+
+MIT
